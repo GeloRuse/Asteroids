@@ -218,10 +218,14 @@ MonoBehaviour:
   decay: 0.95
   rotationSpeed: 200
   radius: 0.2
-  bullet: {fileID: 7332585392086729700, guid: 54f4aad5ea5518649b1c52ec4fa7a25b, type: 3}
+  bullet: {fileID: 6081670105463278171, guid: b21551f9d66db4245a049cd272b558e2, type: 3}
   bulletOrigin: {fileID: 3718623013664092647}
   fireDelay: 0.3
   laser: {fileID: 3718623013554265282}
+  laserChargeTime: 5
+  laserMaxCharges: 3
+  laserAtkTimeLimit: 1
+  laserColAngle: 2
 --- !u!1001 &2647243407482273294
 PrefabInstance:
   m_ObjectHideFlags: 0
