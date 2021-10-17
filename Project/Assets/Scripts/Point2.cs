@@ -1,5 +1,8 @@
 ﻿using System;
 
+/// <summary>
+/// Класс для работы с позициями
+/// </summary>
 public class Point2
 {
     public double x; //X точки

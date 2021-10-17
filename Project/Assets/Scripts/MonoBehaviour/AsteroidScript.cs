@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Скрипт для игрового объекта астероида
+/// </summary>
 public class AsteroidScript : MonoBehaviour
 {
     public GameController gc; //менеджер игры

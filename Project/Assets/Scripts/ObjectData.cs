@@ -1,4 +1,8 @@
-﻿public class ObjectData
+﻿/// <summary>
+/// Класс для хранения данных игрового объекта
+/// (расчёт позиций, расчёт угла поворота корабля, определение коллизии)
+/// </summary>
+public class ObjectData
 {
     public Point2 pos; //позиция объекта
     public double rad; //радиус зоны попадания объекта

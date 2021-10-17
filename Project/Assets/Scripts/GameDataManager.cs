@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
+/// <summary>
+/// Класс для обработки данных объектов 
+/// (коллизии, создание, удаление, перемещение корабля в противоположный край экрана)
+/// </summary>
 public class GameDataManager
 {
     static Random rng = new Random();

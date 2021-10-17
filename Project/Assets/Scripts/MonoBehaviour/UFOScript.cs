@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Скрипт для игрового объекта летающей тарелки
+/// </summary>
 public class UFOScript : MonoBehaviour
 {
     public GameController gc; //менеджер игры

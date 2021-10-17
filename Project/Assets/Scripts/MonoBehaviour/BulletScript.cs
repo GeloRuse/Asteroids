@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Скрипт для игрового объекта пули
+/// </summary>
 public class BulletScript : MonoBehaviour
 {
     public GameController gc; //менеджер игры

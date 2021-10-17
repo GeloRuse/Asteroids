@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Скрипт для игрового объекта корабля игрока
+/// </summary>
 public class PlayerMovement : MonoBehaviour
 {
     public GameController gc; //менеджер игры

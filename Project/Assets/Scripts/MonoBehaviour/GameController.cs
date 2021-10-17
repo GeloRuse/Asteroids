@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// Скрипт для игрового объекта менеджера игры
+/// </summary>
 public class GameController : MonoBehaviour
 {
     public GameDataManager gdm = new GameDataManager(); //менеджер данных, в котором происходят расчёты

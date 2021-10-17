@@ -1,4 +1,7 @@
-﻿public class LaserData
+﻿/// <summary>
+/// Класс для хранения данных лазера
+/// </summary>
+public class LaserData
 {
     public Point2 laserPos; //позиция лазера
     public bool laserActive; //действует ли лазер в данный момент?
