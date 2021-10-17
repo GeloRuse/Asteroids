@@ -1,9 +1,9 @@
-using System;
+п»їusing System;
 
 public class Point2
 {
-    public double x; //X точки
-    public double y; //Y точки
+    public double x; //X С‚РѕС‡РєРё
+    public double y; //Y С‚РѕС‡РєРё
 
     public Point2()
     {
@@ -18,53 +18,53 @@ public class Point2
     }
 
     /// <summary>
-    /// Суммирование точек
+    /// РЎСѓРјРјРёСЂРѕРІР°РЅРёРµ С‚РѕС‡РµРє
     /// </summary>
-    /// <param name="p1">точка 1</param>
-    /// <param name="p2">точка 2</param>
-    /// <returns>сумма точек</returns>
+    /// <param name="p1">С‚РѕС‡РєР° 1</param>
+    /// <param name="p2">С‚РѕС‡РєР° 2</param>
+    /// <returns>СЃСѓРјРјР° С‚РѕС‡РµРє</returns>
     public static Point2 operator +(Point2 p1, Point2 p2)
     {
         return new Point2(p1.x + p2.x, p1.y + p2.y);
     }
 
     /// <summary>
-    /// Вычитание точек
+    /// Р’С‹С‡РёС‚Р°РЅРёРµ С‚РѕС‡РµРє
     /// </summary>
-    /// <param name="p1">точка 1</param>
-    /// <param name="p2">точка 2</param>
-    /// <returns>разница точек</returns>
+    /// <param name="p1">С‚РѕС‡РєР° 1</param>
+    /// <param name="p2">С‚РѕС‡РєР° 2</param>
+    /// <returns>СЂР°Р·РЅРёС†Р° С‚РѕС‡РµРє</returns>
     public static Point2 operator -(Point2 p1, Point2 p2)
     {
         return new Point2(p1.x - p2.x, p1.y - p2.y);
     }
 
     /// <summary>
-    /// Умножение точки на число
+    /// РЈРјРЅРѕР¶РµРЅРёРµ С‚РѕС‡РєРё РЅР° С‡РёСЃР»Рѕ
     /// </summary>
-    /// <param name="v">точка</param>
-    /// <param name="m">число</param>
-    /// <returns>точка, умноженная на число</returns>
+    /// <param name="v">С‚РѕС‡РєР°</param>
+    /// <param name="m">С‡РёСЃР»Рѕ</param>
+    /// <returns>С‚РѕС‡РєР°, СѓРјРЅРѕР¶РµРЅРЅР°СЏ РЅР° С‡РёСЃР»Рѕ</returns>
     public static Point2 operator *(Point2 v, double m)
     {
         return new Point2(v.x * m, v.y * m);
     }
 
     /// <summary>
-    /// Деление точки на число
+    /// Р”РµР»РµРЅРёРµ С‚РѕС‡РєРё РЅР° С‡РёСЃР»Рѕ
     /// </summary>
-    /// <param name="p">точка</param>
-    /// <param name="d">число</param>
-    /// <returns>точка, разделенная на число</returns>
+    /// <param name="p">С‚РѕС‡РєР°</param>
+    /// <param name="d">С‡РёСЃР»Рѕ</param>
+    /// <returns>С‚РѕС‡РєР°, СЂР°Р·РґРµР»РµРЅРЅР°СЏ РЅР° С‡РёСЃР»Рѕ</returns>
     public static Point2 operator /(Point2 p, double d)
     {
         return new Point2(p.x / d, p.y / d);
     }
 
     /// <summary>
-    /// Вычисление величины вектора 
+    /// Р’С‹С‡РёСЃР»РµРЅРёРµ РІРµР»РёС‡РёРЅС‹ РІРµРєС‚РѕСЂР° 
     /// </summary>
-    /// <returns>величина вектора</returns>
+    /// <returns>РІРµР»РёС‡РёРЅР° РІРµРєС‚РѕСЂР°</returns>
     public double VecMag()
     {
         return Math.Sqrt(x * x + y * y);

@@ -1,15 +1,15 @@
-public class LaserData
+п»їpublic class LaserData
 {
-    public Point2 laserPos; //позиция лазера
-    public bool laserActive; //действует ли лазер в данный момент?
-    public double laserColAngle; //угол коллизии лазера
+    public Point2 laserPos; //РїРѕР·РёС†РёСЏ Р»Р°Р·РµСЂР°
+    public bool laserActive; //РґРµР№СЃС‚РІСѓРµС‚ Р»Рё Р»Р°Р·РµСЂ РІ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚?
+    public double laserColAngle; //СѓРіРѕР» РєРѕР»Р»РёР·РёРё Р»Р°Р·РµСЂР°
 
-    private double laserTime; //время с момента выстрела лазера
-    public double laserChargeTime; //время перезарядки лазера
-    public double laserCharges; //количество зарядов лазера
-    public double laserMaxCharges; //максимальное кол-во зарядов
-    private double laserAtkTime;  //время активности лазера
-    public double laserAtkTimeLimit; //максимальное время активности лазера
+    private double laserTime; //РІСЂРµРјСЏ СЃ РјРѕРјРµРЅС‚Р° РІС‹СЃС‚СЂРµР»Р° Р»Р°Р·РµСЂР°
+    public double laserChargeTime; //РІСЂРµРјСЏ РїРµСЂРµР·Р°СЂСЏРґРєРё Р»Р°Р·РµСЂР°
+    public double laserCharges; //РєРѕР»РёС‡РµСЃС‚РІРѕ Р·Р°СЂСЏРґРѕРІ Р»Р°Р·РµСЂР°
+    public double laserMaxCharges; //РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»-РІРѕ Р·Р°СЂСЏРґРѕРІ
+    private double laserAtkTime;  //РІСЂРµРјСЏ Р°РєС‚РёРІРЅРѕСЃС‚Рё Р»Р°Р·РµСЂР°
+    public double laserAtkTimeLimit; //РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РІСЂРµРјСЏ Р°РєС‚РёРІРЅРѕСЃС‚Рё Р»Р°Р·РµСЂР°
 
     public LaserData(double laserChargeTime, double laserMaxCharges, double laserAtkTimeLimit, double laserColAngle)
     {
@@ -21,22 +21,22 @@ public class LaserData
     }
 
     /// <summary>
-    /// Расчёты лазера
+    /// Р Р°СЃС‡С‘С‚С‹ Р»Р°Р·РµСЂР°
     /// </summary>
-    /// <param name="nPos">позиция лазера</param>
-    /// <param name="t">время</param>
+    /// <param name="nPos">РїРѕР·РёС†РёСЏ Р»Р°Р·РµСЂР°</param>
+    /// <param name="t">РІСЂРµРјСЏ</param>
     public void CalcLaser(Point2 nPos, float t)
     {
-        //если не достигнуто максимальное кол-во зарядов лазера, то считаем время перезарядки
+        //РµСЃР»Рё РЅРµ РґРѕСЃС‚РёРіРЅСѓС‚Рѕ РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»-РІРѕ Р·Р°СЂСЏРґРѕРІ Р»Р°Р·РµСЂР°, С‚Рѕ СЃС‡РёС‚Р°РµРј РІСЂРµРјСЏ РїРµСЂРµР·Р°СЂСЏРґРєРё
         if (laserCharges < laserMaxCharges)
             laserTime += t;
-        //если время перезарядки прошло, то увеличиваем кол-во зарядов
+        //РµСЃР»Рё РІСЂРµРјСЏ РїРµСЂРµР·Р°СЂСЏРґРєРё РїСЂРѕС€Р»Рѕ, С‚Рѕ СѓРІРµР»РёС‡РёРІР°РµРј РєРѕР»-РІРѕ Р·Р°СЂСЏРґРѕРІ
         if (laserTime >= laserChargeTime && laserCharges < laserMaxCharges)
         {
             laserTime = 0;
             laserCharges++;
         }
-        //если лазер действует, обновляем его данные
+        //РµСЃР»Рё Р»Р°Р·РµСЂ РґРµР№СЃС‚РІСѓРµС‚, РѕР±РЅРѕРІР»СЏРµРј РµРіРѕ РґР°РЅРЅС‹Рµ
         if (laserAtkTime < laserAtkTimeLimit && laserActive)
         {
             laserPos = nPos;
@@ -49,10 +49,10 @@ public class LaserData
     }
 
     /// <summary>
-    /// Выстрел лазером
+    /// Р’С‹СЃС‚СЂРµР» Р»Р°Р·РµСЂРѕРј
     /// </summary>
-    /// <param name="nPos">позиция лазера</param>
-    /// <returns>возможно ли выстрелить лазером</returns>
+    /// <param name="nPos">РїРѕР·РёС†РёСЏ Р»Р°Р·РµСЂР°</param>
+    /// <returns>РІРѕР·РјРѕР¶РЅРѕ Р»Рё РІС‹СЃС‚СЂРµР»РёС‚СЊ Р»Р°Р·РµСЂРѕРј</returns>
     public bool Fire(Point2 nPos)
     {
         if (laserCharges > 0)
@@ -67,9 +67,9 @@ public class LaserData
     }
 
     /// <summary>
-    /// Время перезарядки лазера
+    /// Р’СЂРµРјСЏ РїРµСЂРµР·Р°СЂСЏРґРєРё Р»Р°Р·РµСЂР°
     /// </summary>
-    /// <returns>оставшееся время</returns>
+    /// <returns>РѕСЃС‚Р°РІС€РµРµСЃСЏ РІСЂРµРјСЏ</returns>
     public double LaserCD()
     {
         return laserChargeTime - laserTime;

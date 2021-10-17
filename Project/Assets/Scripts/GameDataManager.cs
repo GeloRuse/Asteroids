@@ -1,50 +1,50 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 
 public class GameDataManager
 {
     static Random rng = new Random();
 
-    public double screenWidth; //ширина экрана в координатах
-    public double screenHeight; //высота экрана в координатах
-    public int score; //счёт игрока
+    public double screenWidth; //С€РёСЂРёРЅР° СЌРєСЂР°РЅР° РІ РєРѕРѕСЂРґРёРЅР°С‚Р°С…
+    public double screenHeight; //РІС‹СЃРѕС‚Р° СЌРєСЂР°РЅР° РІ РєРѕРѕСЂРґРёРЅР°С‚Р°С…
+    public int score; //СЃС‡С‘С‚ РёРіСЂРѕРєР°
 
-    public List<ObjectData> projectiles = new List<ObjectData>(); //список данных пуль
-    public List<ObjectData> projectilesToRemove = new List<ObjectData>(); //список пуль, помеченных на удаление
+    public List<ObjectData> projectiles = new List<ObjectData>(); //СЃРїРёСЃРѕРє РґР°РЅРЅС‹С… РїСѓР»СЊ
+    public List<ObjectData> projectilesToRemove = new List<ObjectData>(); //СЃРїРёСЃРѕРє РїСѓР»СЊ, РїРѕРјРµС‡РµРЅРЅС‹С… РЅР° СѓРґР°Р»РµРЅРёРµ
 
-    public List<ObjectData> enemies = new List<ObjectData>(); //список данных противников (астероидов и летающих тарелок)
-    public List<ObjectData> smallAsteroids = new List<ObjectData>(); //список осколков астероидов
-    public List<ObjectData> enemiesToRemove = new List<ObjectData>(); //список противников, помеченных на удаление
+    public List<ObjectData> enemies = new List<ObjectData>(); //СЃРїРёСЃРѕРє РґР°РЅРЅС‹С… РїСЂРѕС‚РёРІРЅРёРєРѕРІ (Р°СЃС‚РµСЂРѕРёРґРѕРІ Рё Р»РµС‚Р°СЋС‰РёС… С‚Р°СЂРµР»РѕРє)
+    public List<ObjectData> smallAsteroids = new List<ObjectData>(); //СЃРїРёСЃРѕРє РѕСЃРєРѕР»РєРѕРІ Р°СЃС‚РµСЂРѕРёРґРѕРІ
+    public List<ObjectData> enemiesToRemove = new List<ObjectData>(); //СЃРїРёСЃРѕРє РїСЂРѕС‚РёРІРЅРёРєРѕРІ, РїРѕРјРµС‡РµРЅРЅС‹С… РЅР° СѓРґР°Р»РµРЅРёРµ
 
-    public ObjectData playerShip; //данные корабля игрока
-    public bool playerDead; //состояние корабля игрока
+    public ObjectData playerShip; //РґР°РЅРЅС‹Рµ РєРѕСЂР°Р±Р»СЏ РёРіСЂРѕРєР°
+    public bool playerDead; //СЃРѕСЃС‚РѕСЏРЅРёРµ РєРѕСЂР°Р±Р»СЏ РёРіСЂРѕРєР°
 
-    public LaserData laser; //данные лазера
+    public LaserData laser; //РґР°РЅРЅС‹Рµ Р»Р°Р·РµСЂР°
 
 
     /// <summary>
-    /// Проверка объектов на коллизию
+    /// РџСЂРѕРІРµСЂРєР° РѕР±СЉРµРєС‚РѕРІ РЅР° РєРѕР»Р»РёР·РёСЋ
     /// </summary>
     public void CheckCollisions()
     {
-        //проверка для каждого "противника" в списке
+        //РїСЂРѕРІРµСЂРєР° РґР»СЏ РєР°Р¶РґРѕРіРѕ "РїСЂРѕС‚РёРІРЅРёРєР°" РІ СЃРїРёСЃРєРµ
         foreach (ObjectData e in enemies)
         {
-            //если произошла коллизия с игроком, то завершаем игру
+            //РµСЃР»Рё РїСЂРѕРёР·РѕС€Р»Р° РєРѕР»Р»РёР·РёСЏ СЃ РёРіСЂРѕРєРѕРј, С‚Рѕ Р·Р°РІРµСЂС€Р°РµРј РёРіСЂСѓ
             if (!playerDead && e.Collided(playerShip))
             {
                 enemiesToRemove.Add(e);
                 playerDead = true;
                 return;
             }
-            //проверка на коллизию с лазером игрока
+            //РїСЂРѕРІРµСЂРєР° РЅР° РєРѕР»Р»РёР·РёСЋ СЃ Р»Р°Р·РµСЂРѕРј РёРіСЂРѕРєР°
             if (laser.laserActive && !e.collided)
             {
-                //вычисляем угол между лазером и противником для определения коллизии
+                //РІС‹С‡РёСЃР»СЏРµРј СѓРіРѕР» РјРµР¶РґСѓ Р»Р°Р·РµСЂРѕРј Рё РїСЂРѕС‚РёРІРЅРёРєРѕРј РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РєРѕР»Р»РёР·РёРё
                 Point2 v1 = laser.laserPos - playerShip.pos;
                 Point2 v2 = e.pos - playerShip.pos;
                 double angl = (Math.Atan2(v1.y, v1.x) - Math.Atan2(v2.y, v2.x)) * (180 / Math.PI);
-                //если произошла коллизия, то добавляем противника в список на удаление и увеличиваем счёт
+                //РµСЃР»Рё РїСЂРѕРёР·РѕС€Р»Р° РєРѕР»Р»РёР·РёСЏ, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј РїСЂРѕС‚РёРІРЅРёРєР° РІ СЃРїРёСЃРѕРє РЅР° СѓРґР°Р»РµРЅРёРµ Рё СѓРІРµР»РёС‡РёРІР°РµРј СЃС‡С‘С‚
                 if (Math.Abs(angl) < laser.laserColAngle)
                 {
                     e.collided = true;
@@ -52,17 +52,17 @@ public class GameDataManager
                     score++;
                 }
             }
-            //проверяем коллизию с пулями игрока
+            //РїСЂРѕРІРµСЂСЏРµРј РєРѕР»Р»РёР·РёСЋ СЃ РїСѓР»СЏРјРё РёРіСЂРѕРєР°
             foreach (ObjectData p in projectiles)
             {
-                //если противник столкнулся с пулей игрока, то добавляем пулю и противника в списки на удаление и увеличиваем счёт
+                //РµСЃР»Рё РїСЂРѕС‚РёРІРЅРёРє СЃС‚РѕР»РєРЅСѓР»СЃСЏ СЃ РїСѓР»РµР№ РёРіСЂРѕРєР°, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј РїСѓР»СЋ Рё РїСЂРѕС‚РёРІРЅРёРєР° РІ СЃРїРёСЃРєРё РЅР° СѓРґР°Р»РµРЅРёРµ Рё СѓРІРµР»РёС‡РёРІР°РµРј СЃС‡С‘С‚
                 if (!e.collided && !p.collided && e.Collided(p))
                 {
                     p.collided = true;
                     e.collided = true;
                     enemiesToRemove.Add(e);
                     projectilesToRemove.Add(p);
-                    //если объект может расколоться, до добавляем его в список на создание осколков
+                    //РµСЃР»Рё РѕР±СЉРµРєС‚ РјРѕР¶РµС‚ СЂР°СЃРєРѕР»РѕС‚СЊСЃСЏ, РґРѕ РґРѕР±Р°РІР»СЏРµРј РµРіРѕ РІ СЃРїРёСЃРѕРє РЅР° СЃРѕР·РґР°РЅРёРµ РѕСЃРєРѕР»РєРѕРІ
                     if (e.breakable)
                     {
                         smallAsteroids.Add(e);
@@ -75,9 +75,9 @@ public class GameDataManager
     }
 
     /// <summary>
-    /// Перемещение корабля в противоположную сторону, если достигнут край экрана
+    /// РџРµСЂРµРјРµС‰РµРЅРёРµ РєРѕСЂР°Р±Р»СЏ РІ РїСЂРѕС‚РёРІРѕРїРѕР»РѕР¶РЅСѓСЋ СЃС‚РѕСЂРѕРЅСѓ, РµСЃР»Рё РґРѕСЃС‚РёРіРЅСѓС‚ РєСЂР°Р№ СЌРєСЂР°РЅР°
     /// </summary>
-    /// <returns>статус перемещения</returns>
+    /// <returns>СЃС‚Р°С‚СѓСЃ РїРµСЂРµРјРµС‰РµРЅРёСЏ</returns>
     public bool CalcWarp()
     {
         if (playerShip.pos.x >= screenWidth || playerShip.pos.x <= -screenWidth)
@@ -94,32 +94,32 @@ public class GameDataManager
     }
 
     /// <summary>
-    /// Определение стороны появления объекта и его создание с указаными параметрами
+    /// РћРїСЂРµРґРµР»РµРЅРёРµ СЃС‚РѕСЂРѕРЅС‹ РїРѕСЏРІР»РµРЅРёСЏ РѕР±СЉРµРєС‚Р° Рё РµРіРѕ СЃРѕР·РґР°РЅРёРµ СЃ СѓРєР°Р·Р°РЅС‹РјРё РїР°СЂР°РјРµС‚СЂР°РјРё
     /// </summary>
-    /// <param name="radius">зона попадания объекта</param>
-    /// <param name="speed">скорость объекта</param>
-    /// <param name="brkbl">может ли объект разломаться на части</param>
-    /// <returns>новый объект с указаными параметрами</returns>
+    /// <param name="radius">Р·РѕРЅР° РїРѕРїР°РґР°РЅРёСЏ РѕР±СЉРµРєС‚Р°</param>
+    /// <param name="speed">СЃРєРѕСЂРѕСЃС‚СЊ РѕР±СЉРµРєС‚Р°</param>
+    /// <param name="brkbl">РјРѕР¶РµС‚ Р»Рё РѕР±СЉРµРєС‚ СЂР°Р·Р»РѕРјР°С‚СЊСЃСЏ РЅР° С‡Р°СЃС‚Рё</param>
+    /// <returns>РЅРѕРІС‹Р№ РѕР±СЉРµРєС‚ СЃ СѓРєР°Р·Р°РЅС‹РјРё РїР°СЂР°РјРµС‚СЂР°РјРё</returns>
     public ObjectData Spawn(double radius, double speed, bool brkbl)
     {
         Point2 nPoint = new Point2();
-        //выбираем случайную сторону для появления объекта
+        //РІС‹Р±РёСЂР°РµРј СЃР»СѓС‡Р°Р№РЅСѓСЋ СЃС‚РѕСЂРѕРЅСѓ РґР»СЏ РїРѕСЏРІР»РµРЅРёСЏ РѕР±СЉРµРєС‚Р°
         switch (rng.Next(4))
         {
             case 0:
-                nPoint.x = rng.NextDouble() * (screenWidth + screenWidth) - screenWidth; //случайное место сверху
+                nPoint.x = rng.NextDouble() * (screenWidth + screenWidth) - screenWidth; //СЃР»СѓС‡Р°Р№РЅРѕРµ РјРµСЃС‚Рѕ СЃРІРµСЂС…Сѓ
                 nPoint.y = screenHeight;
                 break;
             case 1:
-                nPoint.x = rng.NextDouble() * (screenWidth + screenWidth) - screenWidth; //снизу
+                nPoint.x = rng.NextDouble() * (screenWidth + screenWidth) - screenWidth; //СЃРЅРёР·Сѓ
                 nPoint.y = -screenHeight;
                 break;
             case 2:
-                nPoint.y = rng.NextDouble() * (screenHeight + screenHeight) - screenHeight; //слева
+                nPoint.y = rng.NextDouble() * (screenHeight + screenHeight) - screenHeight; //СЃР»РµРІР°
                 nPoint.x = -screenWidth;
                 break;
             case 3:
-                nPoint.y = rng.NextDouble() * (screenHeight + screenHeight) - screenHeight; //справа
+                nPoint.y = rng.NextDouble() * (screenHeight + screenHeight) - screenHeight; //СЃРїСЂР°РІР°
                 nPoint.x = screenWidth;
                 break;
         }

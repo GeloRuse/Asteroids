@@ -1,31 +1,31 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
-    public GameController gc; //менеджер игры
+    public GameController gc; //РјРµРЅРµРґР¶РµСЂ РёРіСЂС‹
 
-    public ObjectData bData; //данные пули
-    public float speed = 10; //скорость пули
-    public float hitRadius = .1f; //радиус зоны коллизии пули
+    public ObjectData bData; //РґР°РЅРЅС‹Рµ РїСѓР»Рё
+    public float speed = 10; //СЃРєРѕСЂРѕСЃС‚СЊ РїСѓР»Рё
+    public float hitRadius = .1f; //СЂР°РґРёСѓСЃ Р·РѕРЅС‹ РєРѕР»Р»РёР·РёРё РїСѓР»Рё
 
-    public float lifeTime; //время "жизни" пули
+    public float lifeTime; //РІСЂРµРјСЏ "Р¶РёР·РЅРё" РїСѓР»Рё
 
     private void Start()
     {
-        //создаем пулю
+        //СЃРѕР·РґР°РµРј РїСѓР»СЋ
         bData = new ObjectData(gc.V2P(transform.position), hitRadius, speed, false);
         bData.lifeTime = lifeTime;
 
-        //добавляем пулю в списки
+        //РґРѕР±Р°РІР»СЏРµРј РїСѓР»СЋ РІ СЃРїРёСЃРєРё
         gc.gdm.projectiles.Add(bData);
         gc.projs.Add(gameObject);
     }
 
     /// <summary>
-    /// Вычисление следующей позиции пули
+    /// Р’С‹С‡РёСЃР»РµРЅРёРµ СЃР»РµРґСѓСЋС‰РµР№ РїРѕР·РёС†РёРё РїСѓР»Рё
     /// </summary>
-    /// <param name="t">время</param>
-    /// <returns>состояние пули</returns>
+    /// <param name="t">РІСЂРµРјСЏ</param>
+    /// <returns>СЃРѕСЃС‚РѕСЏРЅРёРµ РїСѓР»Рё</returns>
     public bool CalcMovement(float t)
     {
         if (bData.CalcMovAstBullet(gc.V2P(transform.up), t))

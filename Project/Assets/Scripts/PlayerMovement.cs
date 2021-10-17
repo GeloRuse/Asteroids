@@ -1,53 +1,53 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public GameController gc; //менеджер игры
-    public Controls ctrls; //управление кораблём
-    public ObjectData pData; //данные корабля игрока
+    public GameController gc; //РјРµРЅРµРґР¶РµСЂ РёРіСЂС‹
+    public Controls ctrls; //СѓРїСЂР°РІР»РµРЅРёРµ РєРѕСЂР°Р±Р»С‘Рј
+    public ObjectData pData; //РґР°РЅРЅС‹Рµ РєРѕСЂР°Р±Р»СЏ РёРіСЂРѕРєР°
 
-    public float maxSpeed = 5; //максимальная скорость корабля
-    private float speed; //текущая скорость корабля
-    public float accelerationSpeed = 1; //темп ускорения корабля
-    public float decay = .95f; //темп потери скорости корабля
+    public float maxSpeed = 5; //РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ СЃРєРѕСЂРѕСЃС‚СЊ РєРѕСЂР°Р±Р»СЏ
+    private float speed; //С‚РµРєСѓС‰Р°СЏ СЃРєРѕСЂРѕСЃС‚СЊ РєРѕСЂР°Р±Р»СЏ
+    public float accelerationSpeed = 1; //С‚РµРјРї СѓСЃРєРѕСЂРµРЅРёСЏ РєРѕСЂР°Р±Р»СЏ
+    public float decay = .95f; //С‚РµРјРї РїРѕС‚РµСЂРё СЃРєРѕСЂРѕСЃС‚Рё РєРѕСЂР°Р±Р»СЏ
 
-    public float rotationSpeed = 200; //скорость поворота
-    public float radius = .1f; //радиус зоны коллизии корабля
+    public float rotationSpeed = 200; //СЃРєРѕСЂРѕСЃС‚СЊ РїРѕРІРѕСЂРѕС‚Р°
+    public float radius = .1f; //СЂР°РґРёСѓСЃ Р·РѕРЅС‹ РєРѕР»Р»РёР·РёРё РєРѕСЂР°Р±Р»СЏ
 
-    public GameObject bullet; //игровой объект пули
-    public Transform bulletOrigin; //место выстрела пули
-    public float fireDelay = 1; //задержка стрельбы
-    private float fireTime; //время с момента выстрела пули
+    public GameObject bullet; //РёРіСЂРѕРІРѕР№ РѕР±СЉРµРєС‚ РїСѓР»Рё
+    public Transform bulletOrigin; //РјРµСЃС‚Рѕ РІС‹СЃС‚СЂРµР»Р° РїСѓР»Рё
+    public float fireDelay = 1; //Р·Р°РґРµСЂР¶РєР° СЃС‚СЂРµР»СЊР±С‹
+    private float fireTime; //РІСЂРµРјСЏ СЃ РјРѕРјРµРЅС‚Р° РІС‹СЃС‚СЂРµР»Р° РїСѓР»Рё
 
-    public GameObject laser; //игровой объект лазера
-    public LaserData lData; //данные лазера
-    public float laserChargeTime = 5; //время перезарядки лазера
-    public float laserMaxCharges = 3; //максимальное кол-во зарядов
-    public float laserAtkTimeLimit = 1; //максимальное время активности лазера
-    public float laserColAngle = 2f; //угол коллизии лазера
+    public GameObject laser; //РёРіСЂРѕРІРѕР№ РѕР±СЉРµРєС‚ Р»Р°Р·РµСЂР°
+    public LaserData lData; //РґР°РЅРЅС‹Рµ Р»Р°Р·РµСЂР°
+    public float laserChargeTime = 5; //РІСЂРµРјСЏ РїРµСЂРµР·Р°СЂСЏРґРєРё Р»Р°Р·РµСЂР°
+    public float laserMaxCharges = 3; //РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»-РІРѕ Р·Р°СЂСЏРґРѕРІ
+    public float laserAtkTimeLimit = 1; //РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РІСЂРµРјСЏ Р°РєС‚РёРІРЅРѕСЃС‚Рё Р»Р°Р·РµСЂР°
+    public float laserColAngle = 2f; //СѓРіРѕР» РєРѕР»Р»РёР·РёРё Р»Р°Р·РµСЂР°
 
-    private bool isThrusting; //ускоряется ли корабль
-    private float rot; //угол поворота
-    private Point2 velo = new Point2(); //вектор ускорения
-    private Point2 oldPos; //предыдущая позиция корабля
+    private bool isThrusting; //СѓСЃРєРѕСЂСЏРµС‚СЃСЏ Р»Рё РєРѕСЂР°Р±Р»СЊ
+    private float rot; //СѓРіРѕР» РїРѕРІРѕСЂРѕС‚Р°
+    private Point2 velo = new Point2(); //РІРµРєС‚РѕСЂ СѓСЃРєРѕСЂРµРЅРёСЏ
+    private Point2 oldPos; //РїСЂРµРґС‹РґСѓС‰Р°СЏ РїРѕР·РёС†РёСЏ РєРѕСЂР°Р±Р»СЏ
 
     // Start is called before the first frame update
     private void Start()
     {
-        //настройка управления
+        //РЅР°СЃС‚СЂРѕР№РєР° СѓРїСЂР°РІР»РµРЅРёСЏ
         ctrls = new Controls();
-        ctrls.Player.Thrust.performed += _ => Accelerate(); //назначение метода для движения корабля вперёд по нажатию
-        ctrls.Player.Thrust.canceled += _ => StopAcceleration(); //для прекращения движения вперёд
-        ctrls.Player.Rotate.performed += ctx => Rotate(ctx.ReadValue<Vector2>()); //для поворота корабля
-        ctrls.Player.Attack.performed += _ => Attack(); //для выстрела пулей
-        ctrls.Player.SpecialAttack.performed += _ => SpecialAttack(); //для выстрела лазером
-        ctrls.Other.Exit.performed += _ => CloseGame(); //для выхода из игры
+        ctrls.Player.Thrust.performed += _ => Accelerate(); //РЅР°Р·РЅР°С‡РµРЅРёРµ РјРµС‚РѕРґР° РґР»СЏ РґРІРёР¶РµРЅРёСЏ РєРѕСЂР°Р±Р»СЏ РІРїРµСЂС‘Рґ РїРѕ РЅР°Р¶Р°С‚РёСЋ
+        ctrls.Player.Thrust.canceled += _ => StopAcceleration(); //РґР»СЏ РїСЂРµРєСЂР°С‰РµРЅРёСЏ РґРІРёР¶РµРЅРёСЏ РІРїРµСЂС‘Рґ
+        ctrls.Player.Rotate.performed += ctx => Rotate(ctx.ReadValue<Vector2>()); //РґР»СЏ РїРѕРІРѕСЂРѕС‚Р° РєРѕСЂР°Р±Р»СЏ
+        ctrls.Player.Attack.performed += _ => Attack(); //РґР»СЏ РІС‹СЃС‚СЂРµР»Р° РїСѓР»РµР№
+        ctrls.Player.SpecialAttack.performed += _ => SpecialAttack(); //РґР»СЏ РІС‹СЃС‚СЂРµР»Р° Р»Р°Р·РµСЂРѕРј
+        ctrls.Other.Exit.performed += _ => CloseGame(); //РґР»СЏ РІС‹С…РѕРґР° РёР· РёРіСЂС‹
         ctrls.Enable();
 
-        //создание данных корабля
+        //СЃРѕР·РґР°РЅРёРµ РґР°РЅРЅС‹С… РєРѕСЂР°Р±Р»СЏ
         pData = new ObjectData(new Point2(), radius, accelerationSpeed, false);
         gc.gdm.playerShip = pData;
-        //создание данных лазера
+        //СЃРѕР·РґР°РЅРёРµ РґР°РЅРЅС‹С… Р»Р°Р·РµСЂР°
         lData = new LaserData(laserChargeTime, laserMaxCharges, laserAtkTimeLimit, laserColAngle);
         gc.gdm.laser = lData;
 
@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
         float t = Time.deltaTime;
         fireTime += t;
         CalcMovement(t);
-        //определяем состояние лазера
+        //РѕРїСЂРµРґРµР»СЏРµРј СЃРѕСЃС‚РѕСЏРЅРёРµ Р»Р°Р·РµСЂР°
         lData.CalcLaser(gc.V2P(laser.transform.position), t);
         if (!lData.laserActive)
             laser.SetActive(false);
@@ -69,27 +69,27 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Вычисление следующей позиции корабля
+    /// Р’С‹С‡РёСЃР»РµРЅРёРµ СЃР»РµРґСѓСЋС‰РµР№ РїРѕР·РёС†РёРё РєРѕСЂР°Р±Р»СЏ
     /// </summary>
-    /// <param name="t">время</param>
+    /// <param name="t">РІСЂРµРјСЏ</param>
     public void CalcMovement(float t)
     {
-        //перемещаем корабль в противоположную сторону экрана, если он достиг края
+        //РїРµСЂРµРјРµС‰Р°РµРј РєРѕСЂР°Р±Р»СЊ РІ РїСЂРѕС‚РёРІРѕРїРѕР»РѕР¶РЅСѓСЋ СЃС‚РѕСЂРѕРЅСѓ СЌРєСЂР°РЅР°, РµСЃР»Рё РѕРЅ РґРѕСЃС‚РёРі РєСЂР°СЏ
         if (gc.gdm.CalcWarp())
             transform.position = gc.P2V(pData.pos);
 
         oldPos = gc.V2P(transform.position);
 
-        //расчёт вектора ускорения
+        //СЂР°СЃС‡С‘С‚ РІРµРєС‚РѕСЂР° СѓСЃРєРѕСЂРµРЅРёСЏ
         if (!isThrusting || (velo.VecMag() > maxSpeed))
         {
-            velo *= decay; //корабль останавливается
+            velo *= decay; //РєРѕСЂР°Р±Р»СЊ РѕСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ
         }
         else
         {
-            velo += gc.V2P(transform.up); //корабль ускоряется
+            velo += gc.V2P(transform.up); //РєРѕСЂР°Р±Р»СЊ СѓСЃРєРѕСЂСЏРµС‚СЃСЏ
         }
-        //вычисляем новую позицию корабля
+        //РІС‹С‡РёСЃР»СЏРµРј РЅРѕРІСѓСЋ РїРѕР·РёС†РёСЋ РєРѕСЂР°Р±Р»СЏ
         pData.CalcMovShip(velo, t);
         transform.position = gc.P2V(pData.pos);
         transform.Rotate(0, 0, rot * t);
@@ -98,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Ускорение корабля
+    /// РЈСЃРєРѕСЂРµРЅРёРµ РєРѕСЂР°Р±Р»СЏ
     /// </summary>
     private void Accelerate()
     {
@@ -106,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Прекращение ускорения
+    /// РџСЂРµРєСЂР°С‰РµРЅРёРµ СѓСЃРєРѕСЂРµРЅРёСЏ
     /// </summary>
     private void StopAcceleration()
     {
@@ -114,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Выстрел пулей
+    /// Р’С‹СЃС‚СЂРµР» РїСѓР»РµР№
     /// </summary>
     private void Attack()
     {
@@ -127,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Выстрел лазером
+    /// Р’С‹СЃС‚СЂРµР» Р»Р°Р·РµСЂРѕРј
     /// </summary>
     private void SpecialAttack()
     {
@@ -136,28 +136,28 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Вычисление угла поворота
+    /// Р’С‹С‡РёСЃР»РµРЅРёРµ СѓРіР»Р° РїРѕРІРѕСЂРѕС‚Р°
     /// </summary>
-    /// <param name="inpDir">направление поворота</param>
+    /// <param name="inpDir">РЅР°РїСЂР°РІР»РµРЅРёРµ РїРѕРІРѕСЂРѕС‚Р°</param>
     private void Rotate(Vector2 inpDir)
     {
         rot = (float)pData.CalcRot(-inpDir.x, rotationSpeed);
     }
 
     /// <summary>
-    /// Обновление таблицы информации
+    /// РћР±РЅРѕРІР»РµРЅРёРµ С‚Р°Р±Р»РёС†С‹ РёРЅС„РѕСЂРјР°С†РёРё
     /// </summary>
     private void UpdateText()
     {
-        gc.txtCoords.text = "Координаты: " + transform.position.x.ToString("F2") + ", " + transform.position.y.ToString("F2");
-        gc.txtRot.text = "Угол поворота: " + Mathf.Round(360 - transform.rotation.eulerAngles.z);
-        gc.txtSpeed.text = "Скорость: " + speed.ToString("F2");
-        gc.txtLasChrg.text = "Кол-во зарядов лазера: " + lData.laserCharges;
-        gc.txtLasCD.text = "Время перезарядки: " + lData.LaserCD().ToString("F2");
+        gc.txtCoords.text = "РљРѕРѕСЂРґРёРЅР°С‚С‹: " + transform.position.x.ToString("F2") + ", " + transform.position.y.ToString("F2");
+        gc.txtRot.text = "РЈРіРѕР» РїРѕРІРѕСЂРѕС‚Р°: " + Mathf.Round(360 - transform.rotation.eulerAngles.z);
+        gc.txtSpeed.text = "РЎРєРѕСЂРѕСЃС‚СЊ: " + speed.ToString("F2");
+        gc.txtLasChrg.text = "РљРѕР»-РІРѕ Р·Р°СЂСЏРґРѕРІ Р»Р°Р·РµСЂР°: " + lData.laserCharges;
+        gc.txtLasCD.text = "Р’СЂРµРјСЏ РїРµСЂРµР·Р°СЂСЏРґРєРё: " + lData.LaserCD().ToString("F2");
     }
 
     /// <summary>
-    /// Выход из игры
+    /// Р’С‹С…РѕРґ РёР· РёРіСЂС‹
     /// </summary>
     private void CloseGame()
     {
@@ -165,7 +165,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Отключение управления
+    /// РћС‚РєР»СЋС‡РµРЅРёРµ СѓРїСЂР°РІР»РµРЅРёСЏ
     /// </summary>
     private void OnDisable()
     {

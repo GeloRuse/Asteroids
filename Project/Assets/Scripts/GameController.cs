@@ -1,45 +1,45 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    public GameDataManager gdm = new GameDataManager(); //менеджер данных, в котором происходят расчёты
+    public GameDataManager gdm = new GameDataManager(); //РјРµРЅРµРґР¶РµСЂ РґР°РЅРЅС‹С…, РІ РєРѕС‚РѕСЂРѕРј РїСЂРѕРёСЃС…РѕРґСЏС‚ СЂР°СЃС‡С‘С‚С‹
 
-    public GameObject asteroid; //игровой объект астероида
-    public GameObject ufo; //игровой объект летающей тарелки
+    public GameObject asteroid; //РёРіСЂРѕРІРѕР№ РѕР±СЉРµРєС‚ Р°СЃС‚РµСЂРѕРёРґР°
+    public GameObject ufo; //РёРіСЂРѕРІРѕР№ РѕР±СЉРµРєС‚ Р»РµС‚Р°СЋС‰РµР№ С‚Р°СЂРµР»РєРё
 
-    public List<GameObject> projs = new List<GameObject>(); //список добавленных пуль
-    public List<GameObject> astAdded = new List<GameObject>(); //список добавленных астероидов
-    public List<GameObject> ufosAdded = new List<GameObject>(); //список добавленных тарелок
+    public List<GameObject> projs = new List<GameObject>(); //СЃРїРёСЃРѕРє РґРѕР±Р°РІР»РµРЅРЅС‹С… РїСѓР»СЊ
+    public List<GameObject> astAdded = new List<GameObject>(); //СЃРїРёСЃРѕРє РґРѕР±Р°РІР»РµРЅРЅС‹С… Р°СЃС‚РµСЂРѕРёРґРѕРІ
+    public List<GameObject> ufosAdded = new List<GameObject>(); //СЃРїРёСЃРѕРє РґРѕР±Р°РІР»РµРЅРЅС‹С… С‚Р°СЂРµР»РѕРє
 
-    public float spawnRateAst = 1f; //темп создания астероидов
-    public int spawnAmountAst = 1; //кол-во астероидов в "волне"
-    public int astParts = 2; //кол-во осколков астероида
+    public float spawnRateAst = 1f; //С‚РµРјРї СЃРѕР·РґР°РЅРёСЏ Р°СЃС‚РµСЂРѕРёРґРѕРІ
+    public int spawnAmountAst = 1; //РєРѕР»-РІРѕ Р°СЃС‚РµСЂРѕРёРґРѕРІ РІ "РІРѕР»РЅРµ"
+    public int astParts = 2; //РєРѕР»-РІРѕ РѕСЃРєРѕР»РєРѕРІ Р°СЃС‚РµСЂРѕРёРґР°
 
-    public float spawnRateUFO = 1f; //темп создания тарелок
-    public int spawnAmountUFO = 1; //количество тарелок в "волне"
+    public float spawnRateUFO = 1f; //С‚РµРјРї СЃРѕР·РґР°РЅРёСЏ С‚Р°СЂРµР»РѕРє
+    public int spawnAmountUFO = 1; //РєРѕР»РёС‡РµСЃС‚РІРѕ С‚Р°СЂРµР»РѕРє РІ "РІРѕР»РЅРµ"
 
-    public GameObject player; //игровой объект корабля игрока
+    public GameObject player; //РёРіСЂРѕРІРѕР№ РѕР±СЉРµРєС‚ РєРѕСЂР°Р±Р»СЏ РёРіСЂРѕРєР°
 
-    public Text txtCoords; //координаты игрока
-    public Text txtRot; //угол поворота игрока
-    public Text txtSpeed; //скорость игрока
-    public Text txtLasChrg; //кол-во зарядов лазера
-    public Text txtLasCD; //время перезарядки лазера
+    public Text txtCoords; //РєРѕРѕСЂРґРёРЅР°С‚С‹ РёРіСЂРѕРєР°
+    public Text txtRot; //СѓРіРѕР» РїРѕРІРѕСЂРѕС‚Р° РёРіСЂРѕРєР°
+    public Text txtSpeed; //СЃРєРѕСЂРѕСЃС‚СЊ РёРіСЂРѕРєР°
+    public Text txtLasChrg; //РєРѕР»-РІРѕ Р·Р°СЂСЏРґРѕРІ Р»Р°Р·РµСЂР°
+    public Text txtLasCD; //РІСЂРµРјСЏ РїРµСЂРµР·Р°СЂСЏРґРєРё Р»Р°Р·РµСЂР°
 
-    public GameObject gameoverPanel; //UI область с информацией о конце игры
-    public Text score; //счёт игрока
+    public GameObject gameoverPanel; //UI РѕР±Р»Р°СЃС‚СЊ СЃ РёРЅС„РѕСЂРјР°С†РёРµР№ Рѕ РєРѕРЅС†Рµ РёРіСЂС‹
+    public Text score; //СЃС‡С‘С‚ РёРіСЂРѕРєР°
 
 
     // Start is called before the first frame update
     private void Start()
     {
-        //запускаем создание астероидов и летающих тарелок с указанными параметрами
+        //Р·Р°РїСѓСЃРєР°РµРј СЃРѕР·РґР°РЅРёРµ Р°СЃС‚РµСЂРѕРёРґРѕРІ Рё Р»РµС‚Р°СЋС‰РёС… С‚Р°СЂРµР»РѕРє СЃ СѓРєР°Р·Р°РЅРЅС‹РјРё РїР°СЂР°РјРµС‚СЂР°РјРё
         InvokeRepeating(nameof(SpawnAst), spawnRateAst, spawnRateAst);
         InvokeRepeating(nameof(SpawnUFO), spawnRateUFO, spawnRateUFO);
-        //определяем размеры экрана в координатах
+        //РѕРїСЂРµРґРµР»СЏРµРј СЂР°Р·РјРµСЂС‹ СЌРєСЂР°РЅР° РІ РєРѕРѕСЂРґРёРЅР°С‚Р°С…
         gdm.screenHeight = Camera.main.orthographicSize;
         gdm.screenWidth = gdm.screenHeight * Screen.width / Screen.height;
     }
@@ -47,16 +47,16 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        //игровой цикл действует пока корабль игрока "жив"
+        //РёРіСЂРѕРІРѕР№ С†РёРєР» РґРµР№СЃС‚РІСѓРµС‚ РїРѕРєР° РєРѕСЂР°Р±Р»СЊ РёРіСЂРѕРєР° "Р¶РёРІ"
         if (player != null)
         {
-            SpawnSmallAst(); //создание осколков астероида
-            gdm.CheckCollisions(); //проверка объектов на коллизию
-            Delete(); //удаление помеченных объектов
-            //завершить игру если корабль сбит
+            SpawnSmallAst(); //СЃРѕР·РґР°РЅРёРµ РѕСЃРєРѕР»РєРѕРІ Р°СЃС‚РµСЂРѕРёРґР°
+            gdm.CheckCollisions(); //РїСЂРѕРІРµСЂРєР° РѕР±СЉРµРєС‚РѕРІ РЅР° РєРѕР»Р»РёР·РёСЋ
+            Delete(); //СѓРґР°Р»РµРЅРёРµ РїРѕРјРµС‡РµРЅРЅС‹С… РѕР±СЉРµРєС‚РѕРІ
+            //Р·Р°РІРµСЂС€РёС‚СЊ РёРіСЂСѓ РµСЃР»Рё РєРѕСЂР°Р±Р»СЊ СЃР±РёС‚
             if (gdm.playerDead)
                 EndGame();
-            //обновить позиции объектов
+            //РѕР±РЅРѕРІРёС‚СЊ РїРѕР·РёС†РёРё РѕР±СЉРµРєС‚РѕРІ
             UpdatePositions();
         }
         else
@@ -64,7 +64,7 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    /// Создание астероидов
+    /// РЎРѕР·РґР°РЅРёРµ Р°СЃС‚РµСЂРѕРёРґРѕРІ
     /// </summary>
     private void SpawnAst()
     {
@@ -77,7 +77,7 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    /// Создание летающих тарелок
+    /// РЎРѕР·РґР°РЅРёРµ Р»РµС‚Р°СЋС‰РёС… С‚Р°СЂРµР»РѕРє
     /// </summary>
     private void SpawnUFO()
     {
@@ -92,7 +92,7 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    /// Создание частей уничтоженного астероида
+    /// РЎРѕР·РґР°РЅРёРµ С‡Р°СЃС‚РµР№ СѓРЅРёС‡С‚РѕР¶РµРЅРЅРѕРіРѕ Р°СЃС‚РµСЂРѕРёРґР°
     /// </summary>
     private void SpawnSmallAst()
     {
@@ -100,7 +100,7 @@ public class GameController : MonoBehaviour
         {
             for (int i = 0; i < astParts; i++)
             {
-                //создаём осколок астероида и назначаем ему ObjectData, в котором хранятся его параметры
+                //СЃРѕР·РґР°С‘Рј РѕСЃРєРѕР»РѕРє Р°СЃС‚РµСЂРѕРёРґР° Рё РЅР°Р·РЅР°С‡Р°РµРј РµРјСѓ ObjectData, РІ РєРѕС‚РѕСЂРѕРј С…СЂР°РЅСЏС‚СЃСЏ РµРіРѕ РїР°СЂР°РјРµС‚СЂС‹
                 AsteroidScript ast = Instantiate(asteroid, Vector3.zero, Quaternion.identity).GetComponent<AsteroidScript>();
                 ast.gc = this;
                 ast.CreateSmallAsteroid(od);
@@ -110,11 +110,11 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    /// Удаление помеченных объектов
+    /// РЈРґР°Р»РµРЅРёРµ РїРѕРјРµС‡РµРЅРЅС‹С… РѕР±СЉРµРєС‚РѕРІ
     /// </summary>
     private void Delete()
     {
-        //удаление пуль
+        //СѓРґР°Р»РµРЅРёРµ РїСѓР»СЊ
         while (gdm.projectilesToRemove.Count > 0)
         {
             int it = 0;
@@ -133,11 +133,11 @@ public class GameController : MonoBehaviour
             }
         }
 
-        //удаление астероидов и летающих тарелок
+        //СѓРґР°Р»РµРЅРёРµ Р°СЃС‚РµСЂРѕРёРґРѕРІ Рё Р»РµС‚Р°СЋС‰РёС… С‚Р°СЂРµР»РѕРє
         while (gdm.enemiesToRemove.Count > 0)
         {
             int it = 0;
-            //тарелки
+            //С‚Р°СЂРµР»РєРё
             while (it < ufosAdded.Count)
             {
                 ObjectData uD = ufosAdded[it].GetComponent<UFOScript>().uData;
@@ -152,7 +152,7 @@ public class GameController : MonoBehaviour
                 it++;
             }
             it = 0;
-            //астероиды
+            //Р°СЃС‚РµСЂРѕРёРґС‹
             while (it < astAdded.Count)
             {
                 ObjectData aD = astAdded[it].GetComponent<AsteroidScript>().aData;
@@ -170,23 +170,23 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    /// Обновление позиций объектов
+    /// РћР±РЅРѕРІР»РµРЅРёРµ РїРѕР·РёС†РёР№ РѕР±СЉРµРєС‚РѕРІ
     /// </summary>
     private void UpdatePositions()
     {
-        //пули
+        //РїСѓР»Рё
         foreach (GameObject go in projs)
         {
             if (go.GetComponent<BulletScript>().CalcMovement(Time.deltaTime))
                 gdm.projectilesToRemove.Add(go.GetComponent<BulletScript>().bData);
         }
-        //астероиды
+        //Р°СЃС‚РµСЂРѕРёРґС‹
         foreach (GameObject go in astAdded)
         {
             if (go.GetComponent<AsteroidScript>().CalcMovement(Time.deltaTime))
                 gdm.enemiesToRemove.Add(go.GetComponent<AsteroidScript>().aData);
         }
-        //летающие тарелки
+        //Р»РµС‚Р°СЋС‰РёРµ С‚Р°СЂРµР»РєРё
         foreach (GameObject go in ufosAdded)
         {
             if (player != null)
@@ -197,7 +197,7 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    /// Завершение игры
+    /// Р—Р°РІРµСЂС€РµРЅРёРµ РёРіСЂС‹
     /// </summary>
     private void EndGame()
     {
@@ -210,7 +210,7 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    /// Перезапуск игры
+    /// РџРµСЂРµР·Р°РїСѓСЃРє РёРіСЂС‹
     /// </summary>
     private void RestartGame()
     {
@@ -218,20 +218,20 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    /// Создание Vector3 из Point2
+    /// РЎРѕР·РґР°РЅРёРµ Vector3 РёР· Point2
     /// </summary>
-    /// <param name="p">точка</param>
-    /// <returns>вектор</returns>
+    /// <param name="p">С‚РѕС‡РєР°</param>
+    /// <returns>РІРµРєС‚РѕСЂ</returns>
     public Vector3 P2V(Point2 p)
     {
         return new Vector3((float)p.x, (float)p.y);
     }
 
     /// <summary>
-    /// Создание Point2 из Vector3
+    /// РЎРѕР·РґР°РЅРёРµ Point2 РёР· Vector3
     /// </summary>
-    /// <param name="v">вектор</param>
-    /// <returns>точка</returns>
+    /// <param name="v">РІРµРєС‚РѕСЂ</param>
+    /// <returns>С‚РѕС‡РєР°</returns>
     public Point2 V2P(Vector3 v)
     {
         return new Point2(v.x, v.y);

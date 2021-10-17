@@ -1,63 +1,63 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class AsteroidScript : MonoBehaviour
 {
-    public GameController gc; //менеджер игры
+    public GameController gc; //РјРµРЅРµРґР¶РµСЂ РёРіСЂС‹
 
-    public ObjectData aData; //данные астероида
-    public float speed = 1; //скорость астероида
-    public float hitRadius = .2f; //радиус зоны коллизии астероида
+    public ObjectData aData; //РґР°РЅРЅС‹Рµ Р°СЃС‚РµСЂРѕРёРґР°
+    public float speed = 1; //СЃРєРѕСЂРѕСЃС‚СЊ Р°СЃС‚РµСЂРѕРёРґР°
+    public float hitRadius = .2f; //СЂР°РґРёСѓСЃ Р·РѕРЅС‹ РєРѕР»Р»РёР·РёРё Р°СЃС‚РµСЂРѕРёРґР°
 
-    public float angleVar = 15f; //вариация направления движения астероида
-    public float lifeTime = 20f; //время "жизни" астероида
+    public float angleVar = 15f; //РІР°СЂРёР°С†РёСЏ РЅР°РїСЂР°РІР»РµРЅРёСЏ РґРІРёР¶РµРЅРёСЏ Р°СЃС‚РµСЂРѕРёРґР°
+    public float lifeTime = 20f; //РІСЂРµРјСЏ "Р¶РёР·РЅРё" Р°СЃС‚РµСЂРѕРёРґР°
 
     /// <summary>
-    /// Создание астероида
+    /// РЎРѕР·РґР°РЅРёРµ Р°СЃС‚РµСЂРѕРёРґР°
     /// </summary>
     public void CreateAsteroid()
     {
-        //создаем астероид
+        //СЃРѕР·РґР°РµРј Р°СЃС‚РµСЂРѕРёРґ
         aData = gc.gdm.Spawn(hitRadius, speed, true);
         aData.lifeTime = lifeTime;
         transform.position = gc.P2V(aData.pos);
 
-        //направляем астероид в центр экрана с указанным отклонением
+        //РЅР°РїСЂР°РІР»СЏРµРј Р°СЃС‚РµСЂРѕРёРґ РІ С†РµРЅС‚СЂ СЌРєСЂР°РЅР° СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РѕС‚РєР»РѕРЅРµРЅРёРµРј
         float variance = Random.Range(-angleVar, angleVar);
         transform.up = (gc.transform.position - transform.position);
         transform.rotation = Quaternion.Euler(0, 0, transform.eulerAngles.z + variance);
 
-        //добавляем астероид в списки
+        //РґРѕР±Р°РІР»СЏРµРј Р°СЃС‚РµСЂРѕРёРґ РІ СЃРїРёСЃРєРё
         gc.gdm.enemies.Add(aData);
         gc.astAdded.Add(gameObject);
 
     }
 
     /// <summary>
-    /// Создание осколка астероида
+    /// РЎРѕР·РґР°РЅРёРµ РѕСЃРєРѕР»РєР° Р°СЃС‚РµСЂРѕРёРґР°
     /// </summary>
-    /// <param name="od">исходный астероид</param>
+    /// <param name="od">РёСЃС…РѕРґРЅС‹Р№ Р°СЃС‚РµСЂРѕРёРґ</param>
     public void CreateSmallAsteroid(ObjectData od)
     {
-        //создаем осколок астероида
+        //СЃРѕР·РґР°РµРј РѕСЃРєРѕР»РѕРє Р°СЃС‚РµСЂРѕРёРґР°
         transform.localScale = transform.localScale * .5f;
         aData = new ObjectData(od.pos, od.rad / 2, od.speed * 2, false);
         aData.lifeTime = lifeTime;
         transform.position = gc.P2V(od.pos);
 
-        //движение осколка в случайном направлении
+        //РґРІРёР¶РµРЅРёРµ РѕСЃРєРѕР»РєР° РІ СЃР»СѓС‡Р°Р№РЅРѕРј РЅР°РїСЂР°РІР»РµРЅРёРё
         float variance = Random.Range(-180, 180);
         transform.rotation = Quaternion.Euler(0, 0, transform.eulerAngles.z + variance);
 
-        //добавляем осколок в списки
+        //РґРѕР±Р°РІР»СЏРµРј РѕСЃРєРѕР»РѕРє РІ СЃРїРёСЃРєРё
         gc.gdm.enemies.Add(GetComponent<AsteroidScript>().aData);
         gc.astAdded.Add(gameObject);
     }
 
     /// <summary>
-    /// Вычисление следующей позиции астероида
+    /// Р’С‹С‡РёСЃР»РµРЅРёРµ СЃР»РµРґСѓСЋС‰РµР№ РїРѕР·РёС†РёРё Р°СЃС‚РµСЂРѕРёРґР°
     /// </summary>
-    /// <param name="t">время</param>
-    /// <returns>состояние астероида</returns>
+    /// <param name="t">РІСЂРµРјСЏ</param>
+    /// <returns>СЃРѕСЃС‚РѕСЏРЅРёРµ Р°СЃС‚РµСЂРѕРёРґР°</returns>
     public bool CalcMovement(float t)
     {
         if (aData.CalcMovAstBullet(gc.V2P(transform.up), t))

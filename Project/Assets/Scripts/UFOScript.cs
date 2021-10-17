@@ -1,28 +1,28 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class UFOScript : MonoBehaviour
 {
-    public GameController gc; //менеджер игры
+    public GameController gc; //РјРµРЅРµРґР¶РµСЂ РёРіСЂС‹
 
-    public ObjectData uData; //данные летающей тарелки
-    public float speed = 1; //скорость тарелки
-    public float hitRadius = .3f; //радиус зоны коллизии тарелки
+    public ObjectData uData; //РґР°РЅРЅС‹Рµ Р»РµС‚Р°СЋС‰РµР№ С‚Р°СЂРµР»РєРё
+    public float speed = 1; //СЃРєРѕСЂРѕСЃС‚СЊ С‚Р°СЂРµР»РєРё
+    public float hitRadius = .3f; //СЂР°РґРёСѓСЃ Р·РѕРЅС‹ РєРѕР»Р»РёР·РёРё С‚Р°СЂРµР»РєРё
 
     private void Start()
     {
-        //создаем тарелку
+        //СЃРѕР·РґР°РµРј С‚Р°СЂРµР»РєСѓ
         uData = gc.gdm.Spawn(hitRadius, speed, false);
         transform.position = gc.P2V(uData.pos);
 
-        //добавляем тарелку в списки
+        //РґРѕР±Р°РІР»СЏРµРј С‚Р°СЂРµР»РєСѓ РІ СЃРїРёСЃРєРё
         gc.gdm.enemies.Add(uData);
         gc.ufosAdded.Add(gameObject);
     }
 
     /// <summary>
-    /// Вычисление следующей позиции летающей тарелки
+    /// Р’С‹С‡РёСЃР»РµРЅРёРµ СЃР»РµРґСѓСЋС‰РµР№ РїРѕР·РёС†РёРё Р»РµС‚Р°СЋС‰РµР№ С‚Р°СЂРµР»РєРё
     /// </summary>
-    /// <param name="playerPos">позиция игрока</param>
+    /// <param name="playerPos">РїРѕР·РёС†РёСЏ РёРіСЂРѕРєР°</param>
     public void CalcMovement(Vector3 playerPos)
     {
         uData.CalcMovUFO(gc.V2P(playerPos), Time.deltaTime);

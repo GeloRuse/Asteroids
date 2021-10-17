@@ -1,13 +1,13 @@
-public class ObjectData
+п»їpublic class ObjectData
 {
-    public Point2 pos; //позиция объекта
-    public double rad; //радиус зоны попадания объекта
-    public double speed; //скорость объекта
-    public bool collided; //столкнулся ли объект?
-    public bool breakable; //может ли объект разломаться на несколько частей?
+    public Point2 pos; //РїРѕР·РёС†РёСЏ РѕР±СЉРµРєС‚Р°
+    public double rad; //СЂР°РґРёСѓСЃ Р·РѕРЅС‹ РїРѕРїР°РґР°РЅРёСЏ РѕР±СЉРµРєС‚Р°
+    public double speed; //СЃРєРѕСЂРѕСЃС‚СЊ РѕР±СЉРµРєС‚Р°
+    public bool collided; //СЃС‚РѕР»РєРЅСѓР»СЃСЏ Р»Рё РѕР±СЉРµРєС‚?
+    public bool breakable; //РјРѕР¶РµС‚ Р»Рё РѕР±СЉРµРєС‚ СЂР°Р·Р»РѕРјР°С‚СЊСЃСЏ РЅР° РЅРµСЃРєРѕР»СЊРєРѕ С‡Р°СЃС‚РµР№?
 
-    private double timePassed; //прошедшее время
-    public double lifeTime; //время "жизни" объекта
+    private double timePassed; //РїСЂРѕС€РµРґС€РµРµ РІСЂРµРјСЏ
+    public double lifeTime; //РІСЂРµРјСЏ "Р¶РёР·РЅРё" РѕР±СЉРµРєС‚Р°
 
     public ObjectData(Point2 pos, double rad, double speed, bool breakable)
     {
@@ -18,21 +18,21 @@ public class ObjectData
     }
 
     /// <summary>
-    /// Вычисление угла поворота
+    /// Р’С‹С‡РёСЃР»РµРЅРёРµ СѓРіР»Р° РїРѕРІРѕСЂРѕС‚Р°
     /// </summary>
-    /// <param name="dir">направление поворота</param>
-    /// <param name="speed">скорость вращения</param>
-    /// <returns>угол поворота</returns>
+    /// <param name="dir">РЅР°РїСЂР°РІР»РµРЅРёРµ РїРѕРІРѕСЂРѕС‚Р°</param>
+    /// <param name="speed">СЃРєРѕСЂРѕСЃС‚СЊ РІСЂР°С‰РµРЅРёСЏ</param>
+    /// <returns>СѓРіРѕР» РїРѕРІРѕСЂРѕС‚Р°</returns>
     public double CalcRot(float dir, float speed)
     {
         return dir * speed;
     }
 
     /// <summary>
-    /// Проверка коллизии объектов
+    /// РџСЂРѕРІРµСЂРєР° РєРѕР»Р»РёР·РёРё РѕР±СЉРµРєС‚РѕРІ
     /// </summary>
-    /// <param name="c">объект проверки на коллизию</param>
-    /// <returns>состояние коллизии данного объекта</returns>
+    /// <param name="c">РѕР±СЉРµРєС‚ РїСЂРѕРІРµСЂРєРё РЅР° РєРѕР»Р»РёР·РёСЋ</param>
+    /// <returns>СЃРѕСЃС‚РѕСЏРЅРёРµ РєРѕР»Р»РёР·РёРё РґР°РЅРЅРѕРіРѕ РѕР±СЉРµРєС‚Р°</returns>
     public bool Collided(ObjectData c)
     {
         double vMag = (pos - c.pos).VecMag();
@@ -44,20 +44,20 @@ public class ObjectData
     }
 
     /// <summary>
-    /// Вычисление следующей позиции корабля
+    /// Р’С‹С‡РёСЃР»РµРЅРёРµ СЃР»РµРґСѓСЋС‰РµР№ РїРѕР·РёС†РёРё РєРѕСЂР°Р±Р»СЏ
     /// </summary>
-    /// <param name="pos2">направляющий вектор</param>
-    /// <param name="t">время</param>
+    /// <param name="pos2">РЅР°РїСЂР°РІР»СЏСЋС‰РёР№ РІРµРєС‚РѕСЂ</param>
+    /// <param name="t">РІСЂРµРјСЏ</param>
     public void CalcMovShip(Point2 pos2, double t)
     {
         pos += pos2 * t * speed;
     }
 
     /// <summary>
-    /// Вычисление следующей позиции летающей тарелки
+    /// Р’С‹С‡РёСЃР»РµРЅРёРµ СЃР»РµРґСѓСЋС‰РµР№ РїРѕР·РёС†РёРё Р»РµС‚Р°СЋС‰РµР№ С‚Р°СЂРµР»РєРё
     /// </summary>
-    /// <param name="pos2">позиция корабля игрока</param>
-    /// <param name="t">время</param>
+    /// <param name="pos2">РїРѕР·РёС†РёСЏ РєРѕСЂР°Р±Р»СЏ РёРіСЂРѕРєР°</param>
+    /// <param name="t">РІСЂРµРјСЏ</param>
     public void CalcMovUFO(Point2 pos2, double t)
     {
         Point2 nV = pos2 - pos;
@@ -68,17 +68,17 @@ public class ObjectData
     }
 
     /// <summary>
-    /// Вычисление следующей позиции астероида/пули
+    /// Р’С‹С‡РёСЃР»РµРЅРёРµ СЃР»РµРґСѓСЋС‰РµР№ РїРѕР·РёС†РёРё Р°СЃС‚РµСЂРѕРёРґР°/РїСѓР»Рё
     /// </summary>
-    /// <param name="pos2">направляющий вектор</param>
-    /// <param name="t">время</param>
-    /// <returns>состояние астероида/пули</returns>
+    /// <param name="pos2">РЅР°РїСЂР°РІР»СЏСЋС‰РёР№ РІРµРєС‚РѕСЂ</param>
+    /// <param name="t">РІСЂРµРјСЏ</param>
+    /// <returns>СЃРѕСЃС‚РѕСЏРЅРёРµ Р°СЃС‚РµСЂРѕРёРґР°/РїСѓР»Рё</returns>
     public bool CalcMovAstBullet(Point2 pos2, double t)
     {
-        //если пуля ни в кого не попала через определенное время - удалить её
+        //РµСЃР»Рё РїСѓР»СЏ РЅРё РІ РєРѕРіРѕ РЅРµ РїРѕРїР°Р»Р° С‡РµСЂРµР· РѕРїСЂРµРґРµР»РµРЅРЅРѕРµ РІСЂРµРјСЏ - СѓРґР°Р»РёС‚СЊ РµС‘
         if (timePassed >= lifeTime)
             return true;
-        //иначе вычисляем следующую позицию
+        //РёРЅР°С‡Рµ РІС‹С‡РёСЃР»СЏРµРј СЃР»РµРґСѓСЋС‰СѓСЋ РїРѕР·РёС†РёСЋ
         pos += pos2 * t * speed;
         timePassed += t;
         return false;
