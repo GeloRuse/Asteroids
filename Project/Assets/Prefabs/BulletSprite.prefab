@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 922264822198373288}
   - component: {fileID: 5585370488575962859}
   m_Layer: 0
-  m_Name: BulledSprite
+  m_Name: BulletSprite
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
